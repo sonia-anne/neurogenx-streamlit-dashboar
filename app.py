@@ -3,95 +3,92 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="NEUROGEN-X Dashboard", layout="wide")
+# CONFIGURACIÓN
+st.set_page_config(page_title="NEUROGEN-X Interactive Dashboard", layout="wide")
 
-# TÍTULO
-st.markdown("<h1 style='color:#00FFFF;text-align:center;'>NEUROGEN-X: Revolutionizing Prion Disease Treatment</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align:center;'>A futuristic biomedical innovation against Creutzfeldt-Jakob Disease (CJD)</h4>", unsafe_allow_html=True)
+# TÍTULO PRINCIPAL
+st.markdown("<h1 style='text-align:center; color:#06b6d4;'>NEUROGEN-X: The Nanobot That Cures CJD</h1>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align:center; color:#94a3b8;'>A fully interactive and scientific dashboard that visualizes the revolution of neuro-nanomedicine</h4>", unsafe_allow_html=True)
 st.markdown("---")
 
-# SECCIÓN: COMPONENTES DEL NANOROBOT
-st.subheader("Nanobot Composition and Specifications")
+# MÉTRICAS
+col1, col2, col3 = st.columns(3)
+col1.metric(label="Size", value="50 nm", delta="Smaller than virus")
+col2.metric(label="Efficacy", value="94%", delta="Best result")
+col3.metric(label="Degradation", value="72 hours", delta="No residue")
 
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown("### Materials & Structure")
-    st.markdown("""
-    - **Structure**: Truncated icosahedron (like a soccer ball)
-    - **Material**: Gold-Platinum alloy core, mimetic peptide coating
-    - **Functional Compartments**:
-        - CRISPR-Cas13d enzymes (red spheres)
-        - BDNF/NGF neuroregenerative factors (green microcapsules)
-        - AI-controlled quantum CPU (cyan luminous cube)
-    - **Sensors**: Molecular GPS (purple blinking nodes)
-    - **Release Pores**: 2nm openings in pentagonal faces
-    """)
-
-with col2:
-    st.markdown("### Size and Delivery")
-    st.markdown("""
-    - **Size**: 50 nanometers (smaller than most viruses)
-    - **Comparison**:
-        - Red Blood Cell: 7,000 nm
-        - Virus: 100 nm
-        - NEUROGEN-X: 50 nm
-    - **Injection**: Intravenous delivery with transferrin ligands
-    - **Mechanism**: Mimetic camouflage to bypass immune detection
-    """)
-
-st.markdown("---")
-
-# COMPARATIVA DE TAMAÑOS
-st.subheader("Size Comparison: Why NEUROGEN-X Reaches Where Others Can't")
-size_data = pd.DataFrame({
-    "Element": ["Red Blood Cell", "Typical Virus", "NEUROGEN-X Nanobot"],
+# COMPARACIÓN DE TAMAÑOS
+st.subheader("How Small is NEUROGEN-X?")
+size_df = pd.DataFrame({
+    "Structure": ["Red Blood Cell", "Typical Virus", "NEUROGEN-X"],
     "Size (nm)": [7000, 100, 50]
 })
-fig_size = px.bar(size_data, x="Element", y="Size (nm)", color="Element",
-                  color_discrete_sequence=["red", "orange", "cyan"],
-                  title="Relative Sizes in Nanometers")
-st.plotly_chart(fig_size, use_container_width=True)
+fig_bar = px.bar(size_df, x="Structure", y="Size (nm)", color="Structure",
+                 color_discrete_sequence=["red", "orange", "cyan"],
+                 text="Size (nm)")
+fig_bar.update_traces(textposition='outside')
+fig_bar.update_layout(title="Relative Size Comparison", template="plotly_white")
+st.plotly_chart(fig_bar, use_container_width=True)
 
-# MECANISMO DE ACCIÓN
-st.subheader("Mechanism of Action: Step-by-Step Simulation")
+# DETALLES DEL NANOROBOT
+st.subheader("NEUROGEN-X Core Composition")
+st.markdown("""
+- **Shape**: Truncated icosahedron (like a nanoscale soccer ball)
+- **Material**: Gold-platinum alloy + Peptidomimetic layer
+- **Core**: AI Quantum CPU
+- **Mechanism**:
+    - Crosses Blood-Brain Barrier using transferrin ligands
+    - Detects prions with molecular GPS
+    - Cuts prions with CRISPR-Cas13d
+    - Regenerates neurons with BDNF & NGF
+    - Self-destructs in 72h to avoid toxicity
+- **Injection**: IV saline with stabilizers
+""")
 
-steps = ["Injection", "Bloodstream Navigation", "BBB Penetration", "Prion Detection", 
-         "CRISPR Activation", "Prion Degradation", "Regeneration Scaffold Release", 
-         "BDNF/NGF Diffusion", "Synaptic Repair", "Autodestruction"]
-completion = [10, 20, 30, 45, 55, 65, 75, 85, 95, 100]
+# PIE DE FUNCIONES
+st.subheader("Functional Composition")
+fig = px.pie(
+    names=["CRISPR Prion Cutting", "GPS Targeting", "Regeneration", "Self-Destruction"],
+    values=[30, 25, 30, 15],
+    color_discrete_sequence=px.colors.sequential.Rainbow
+)
+st.plotly_chart(fig, use_container_width=True)
 
-fig_steps = go.Figure(data=[go.Scatter(x=steps, y=completion, mode='lines+markers',
-                                       line=dict(color="cyan", width=4),
-                                       marker=dict(size=12, color="purple"))])
-fig_steps.update_layout(title="NEUROGEN-X Journey Through the Body",
-                        xaxis_title="Phase",
-                        yaxis_title="% Completion",
-                        template="plotly_dark")
-st.plotly_chart(fig_steps, use_container_width=True)
-
-# COMPARADOR DE EFICACIA
-st.subheader("Efficacy Comparison Against Other Treatments")
-comparison_df = pd.DataFrame({
-    "Treatment": ["NEUROGEN-X", "MIT Gold Nanoparticles", "NIH ASO", "Quinacrine"],
+# COMPARACIÓN CON OTRAS TERAPIAS
+st.subheader("Therapeutic Comparison")
+df = pd.DataFrame({
+    "Treatment": ["NEUROGEN-X", "MIT Nanoparticles", "NIH ASO", "Quinacrine"],
     "Efficacy (%)": [94, 48, 70, 0],
-    "Toxicity": ["Low", "High (accumulation)", "Moderate", "High (hepatic)"],
+    "Toxicity": ["Low", "High", "Moderate", "High"],
+    "Immune Response": ["Minimal", "High", "Moderate", "Severe"],
     "Cost (USD)": [8000, 50000, 1200000, 12000]
 })
-fig_efficacy = px.bar(comparison_df, x="Treatment", y="Efficacy (%)", color="Treatment",
-                      color_discrete_sequence=["cyan", "goldenrod", "lightblue", "gray"],
-                      title="Degradation Efficacy Comparison")
-st.plotly_chart(fig_efficacy, use_container_width=True)
+st.dataframe(df.style
+    .background_gradient(cmap="Blues", subset=["Efficacy (%)"])
+    .highlight_max(color="lightgreen")
+    .set_table_styles([{'selector': 'thead', 'props': [('background-color', '#0ea5e9'), ('color', 'white')]}]))
 
-# PIE CHART - FUNCIONES
-st.subheader("Strategic Advantages of NEUROGEN-X")
-fig_pie = px.pie(values=[25, 25, 25, 25], names=["Precision CRISPR Cutting", 
-                                                  "Targeted Brain Delivery", 
-                                                  "Tissue Regeneration", 
-                                                  "Safe Autodestruction"],
-                 title="Balanced Biomedical Functions",
-                 color_discrete_sequence=px.colors.sequential.Tealgrn)
-st.plotly_chart(fig_pie, use_container_width=True)
+# LÍNEA DE TIEMPO DE ACCIÓN
+st.subheader("Treatment Journey Timeline")
+steps = ["Injection", "Circulation", "BBB Crossing", "Prion Detection", "CRISPR Action", "Neural Repair", "Destruction"]
+progress = [10, 25, 45, 65, 80, 95, 100]
+fig2 = go.Figure()
+fig2.add_trace(go.Scatter(x=steps, y=progress, mode='lines+markers', line=dict(color='cyan', width=4)))
+fig2.update_layout(title="NEUROGEN-X Timeline", template="plotly_dark")
+st.plotly_chart(fig2, use_container_width=True)
 
-# FOOTER
+# EXPLICACIÓN FINAL
+st.subheader("Why NEUROGEN-X Succeeds")
+st.markdown("""
+- Smart targeting with AI
+- Prion-specific enzyme system (no harm to healthy cells)
+- Full neural regeneration with nanoscaffolds
+- Natural degradation without toxicity
+- Accessible cost, high scalability
+
+> "Built by science, inspired by life."
+""")
+
+# PIE DE PÁGINA
 st.markdown("---")
-st.markdown("<p style='text-align:center;'>Developed with cutting-edge bioengineering, artificial intelligence and compassion from Ecuador to the world.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center;'>Created by NEUROGEN-X Team — Powered by AI, Nanotech & Ecuadorian Innovation.</p>", unsafe_allow_html=True)

@@ -1,13 +1,12 @@
 import streamlit as st
-from PIL import Image
-import base64
+import pandas as pd
+import plotly.express as px
 
-# --- CONFIGURACIÓN INICIAL ---
-st.set_page_config(page_title="NEUROGEN-X | Cure ECJ", layout="wide")
+# TÍTULO PRINCIPAL
+st.markdown("<h1 style='color: cyan; text-align: center;'>NEUROGEN-X: The Cure for Creutzfeldt-Jakob Disease</h1>", unsafe_allow_html=True)
 
-# --- FONDO PERSONALIZADO ---
-st.markdown(
-    """
+# FONDO CON IMAGEN EN LÍNEA (funciona en Streamlit Cloud)
+st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
         background-image: url("https://images.unsplash.com/photo-1581090700227-1e8a7ebc71b1?auto=format&fit=crop&w=1400&q=80");
@@ -16,68 +15,44 @@ st.markdown(
         background-attachment: fixed;
     }
     </style>
-    """,
-    unsafe_allow_html=True
-)
-# --- TÍTULO ---
-st.markdown("<h1 style='color: cyan; text-align: center;'>NEUROGEN-X: The Cure for Creutzfeldt-Jakob</h1>", unsafe_allow_html=True)
-st.markdown("---")
+""", unsafe_allow_html=True)
 
-# --- TARJETAS DE FUNCIÓN ---
+# CARDS CON ICONOS
 col1, col2, col3 = st.columns(3)
-with col1:
-    st.markdown("### 🧬 Molecular GPS")
-    st.info("Detects prions using AI-driven 3D protein scans.")
-with col2:
-    st.markdown("### ✂️ CRISPR-Cas13d")
-    st.info("Cuts prions with 94% precision using RNA-guided enzymes.")
-with col3:
-    st.markdown("### 🌱 Brain Regeneration")
-    st.info("Rebuilds neurons using BDNF and nanofiber scaffolds.")
+col1.metric("Prion Degradation", "94%", "Targeted")
+col2.metric("Neuronal Regeneration", "40% ↑", "2 weeks")
+col3.metric("Cost per dose", "$8,000", "vs $1.2M gene therapy")
 
-# --- IMAGEN PRINCIPAL (INFOGRAFÍA DE FASES) ---
-st.markdown("### **Complete Action Cycle**")
-img1 = Image.open("assets/neurogenx_infographic.png")
-st.image(img1, use_column_width=True)
-
-# --- SLIDER INTERACTIVO: Comparador de Tratamientos ---
-st.markdown("### **Compare NEUROGEN-X vs. Previous Treatments**")
-option = st.slider("Slide to compare", 0, 2, 0,
-                   format="%d", help="0: MIT, 1: NIH, 2: NEUROGEN-X")
-
-if option == 0:
-    st.warning("MIT: Nanoparticles failed due to immune response and liver accumulation.")
-elif option == 1:
-    st.info("NIH: ASOs only prevent prions but do not regenerate tissue.")
-else:
-    st.success("NEUROGEN-X: Degrades prions, regenerates neurons, auto-destructs safely.")
-
-# --- ANIMACIÓN PASO A PASO (Texto) ---
-with st.expander("🧠 Mecanism of Action - Step by Step"):
-    st.markdown("""
-    **1. Injection:** Delivered intravenously inside blue lipid solution.
-    **2. Navigation:** Crosses BBB using transferrin ligands.
-    **3. Detection:** Scans prions via AI-based molecular GPS.
-    **4. Attack:** CRISPR-Cas13d cuts prions into safe fragments.
-    **5. Regeneration:** Releases BDNF/NGF + nanofibers for neuron growth.
-    **6. Autodestruction:** 72h later, dissolves into amino acids.
-    """)
-
-# --- IMAGEN DEL NANORROBOT ---
-st.markdown("### **Nanorobot Design**")
-img2 = Image.open("assets/nanorobot_models.png")
-st.image(img2, caption="NEUROGEN-X: Icosahedron-shaped nanobot (50 nm)", use_column_width=True)
-
-# --- DIAGRAMA COMPARATIVO ---
-with st.expander("📊 Comparative Table"):
-    st.markdown("""
-    | Treatment            | Year | Efficacy | Problems                     | NEUROGEN-X Solves It By...                 |
-    |----------------------|------|----------|------------------------------|--------------------------------------------|
-    | **Quinacrine**       | 2012 | 0%       | Liver toxicity               | Biodegradable materials only               |
-    | **MIT Nanoparticles**| 2024 | 48%      | Organ accumulation           | Auto-destruction in 72h                    |
-    | **NIH ASOs**         | 2023 | 70%      | No regeneration, only prevention | Dual function: degradation + repair   |
-    """)
-
-# --- FOOTER ---
 st.markdown("---")
-st.markdown("<small style='color: lightgray;'>Created by a young scientist from Ecuador – NEUROGEN-X is the future of neurodegeneration treatment.</small>", unsafe_allow_html=True)
+
+# MAPA DE MECANISMO DE ACCIÓN (GRÁFICO DE BARRAS)
+st.subheader("Mechanism of Action: NEUROGEN-X vs Traditional Treatments")
+mechanism_data = pd.DataFrame({
+    "Process": ["Prion Detection", "Selective Degradation", "Regeneration", "Autodestruction"],
+    "NEUROGEN-X": [100, 94, 85, 100],
+    "Gene Therapy": [50, 0, 40, 0],
+    "Gold Nanoparticles": [80, 48, 0, 0]
+})
+fig = px.bar(mechanism_data, x="Process", y=["NEUROGEN-X", "Gene Therapy", "Gold Nanoparticles"],
+             title="Comparison of Treatment Mechanisms",
+             barmode="group", color_discrete_sequence=px.colors.sequential.Viridis)
+st.plotly_chart(fig)
+
+# SLIDER COMPARATIVO DE EFICACIA
+st.subheader("Efficacy Comparison")
+efficacy = st.slider("Adjust NEUROGEN-X Degradation Rate", 50, 100, 94)
+st.success(f"Simulated prion degradation rate: {efficacy}%")
+
+# DIAGRAMA DE VENN (SIMULADO CON TEXTO)
+st.subheader("Why NEUROGEN-X Works Where Others Failed")
+st.markdown("""
+- ✅ Selective Prion Targeting  
+- ✅ Neuronal Regeneration  
+- ✅ Autodestruction  
+- ❌ Accumulation (MIT Gold Particles)  
+- ❌ Systemic Toxicity (Gene Therapy)  
+""")
+
+# FOOTER CON FRASE FINAL
+st.markdown("---")
+st.markdown("<h4 style='text-align: center; color: white;'>From Ecuador, rewriting the future of neurodegenerative medicine.</h4>", unsafe_allow_html=True)

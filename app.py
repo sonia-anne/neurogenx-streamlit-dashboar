@@ -6,22 +6,19 @@ import base64
 st.set_page_config(page_title="NEUROGEN-X | Cure ECJ", layout="wide")
 
 # --- FONDO PERSONALIZADO ---
-def set_bg_from_local(image_file):
-    with open(image_file, "rb") as f:
-        base64_img = base64.b64encode(f.read()).decode()
-    css_code = f"""
+st.markdown(
+    """
     <style>
-    .stApp {{
-        background-image: url("data:image/jpg;base64,{base64_img}");
+    [data-testid="stAppViewContainer"] {
+        background-image: url("https://images.unsplash.com/photo-1581090700227-1e8a7ebc71b1?auto=format&fit=crop&w=1400&q=80");
         background-size: cover;
         background-position: center;
-    }}
+        background-attachment: fixed;
+    }
     </style>
-    """
-    st.markdown(css_code, unsafe_allow_html=True)
-
-set_bg_from_local("assets/dna_background.jpg")
-
+    """,
+    unsafe_allow_html=True
+)
 # --- TÍTULO ---
 st.markdown("<h1 style='color: cyan; text-align: center;'>NEUROGEN-X: The Cure for Creutzfeldt-Jakob</h1>", unsafe_allow_html=True)
 st.markdown("---")
